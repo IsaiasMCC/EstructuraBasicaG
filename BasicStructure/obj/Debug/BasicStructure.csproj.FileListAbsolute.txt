@@ -1,0 +1,13 @@
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\bin\Debug\BasicStructure.exe.config
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\bin\Debug\BasicStructure.exe
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\bin\Debug\BasicStructure.pdb
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\bin\Debug\OpenTK.dll
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\bin\Debug\OpenTK.pdb
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\bin\Debug\OpenTK.xml
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\obj\Debug\BasicStructure.csprojAssemblyReference.cache
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\obj\Debug\BasicStructure.Properties.Resources.resources
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\obj\Debug\BasicStructure.csproj.GenerateResource.cache
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\obj\Debug\BasicStructure.csproj.CoreCompileInputs.cache
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\obj\Debug\BasicStructure.csproj.CopyComplete
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\obj\Debug\BasicStructure.exe
+C:\Users\isais\source\repos\BasicStructure\BasicStructure\obj\Debug\BasicStructure.pdb

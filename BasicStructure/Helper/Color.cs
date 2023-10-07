@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace BasicStructure.negocio
 {
-    class Color
+    public class Color
     {
-        public readonly double red;
-        public readonly double green;
-        public readonly double blue;
+        public double red { get; set; }
+        public double green { get; set; }
+        public double blue { get; set; }
 
+        [JsonConstructor]
         public Color(double red, double green, double blue)
         {
             this.red = red;

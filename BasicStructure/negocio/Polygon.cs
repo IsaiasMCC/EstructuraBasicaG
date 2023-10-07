@@ -3,33 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using System.Text.Json.Serialization;
 
 namespace BasicStructure.negocio
 {
-    class Polygon
+    public class Polygon
     {
-        public List<Point> vertices;
-        private Color color;
+        public List<Point> vertices { get; set; }
+        public Color color { get; set; }
 
+        [JsonConstructor]
         public Polygon(Color color)
         {
             vertices = new List<Point>();
             this.color = color;
         }
 
-        public Polygon(Color color, List<Point> vertices)
-        {
-            this.vertices = vertices;
-            this.color = color;
-        }
-
         public void Draw()
         {
-            GL.LoadIdentity();
+            //GL.LoadIdentity();
+            //GL.PushMatrix();
             //GL.Translate(0, 0, 0);
-            GL.Rotate(-25f, 1, 1, 0);
+            //GL.Rotate(-25f, 1, 1, 0);
             GL.Begin(PrimitiveType.Polygon);
             this.SetColor();
             foreach(Point vertex in vertices)
@@ -37,6 +34,7 @@ namespace BasicStructure.negocio
                 GL.Vertex3(vertex.x, vertex.y, vertex.z);
             }
             GL.End();
+            //GL.PopMatrix();
         }
 
         public void SetColor()

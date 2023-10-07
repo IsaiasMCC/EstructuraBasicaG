@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Graphics.OpenGL;
+
+using System.Text.Json.Serialization;
 
 namespace BasicStructure.negocio
 {
-    class Part: IObject
+    public class Part: IObject
     {
-        public double centerX;
-        public double centerY;
-        public double centerZ;
+        public double centerX { get; set; }
+        public double centerY { get; set; }
+        public double centerZ { get; set; }
 
-        public double width;
-        public double height;
-        public double depth;
-        public List<Polygon> polygons;
+        public double width { get; set; }
+        public double height { get; set; }
+        public double depth { get; set; }
+        public List<Polygon> polygons { get; set; }
 
+        [JsonConstructor]
         public Part(double width, double height, double depth, double centerX, double centerY, double centerZ)
         {
             this.centerX = centerX;
@@ -29,24 +33,17 @@ namespace BasicStructure.negocio
             polygons = new List<Polygon>();
         }
 
-        public Part(double width, double height, double depth, double centerX, double centerY, double centerZ, List<Polygon> polygons)
-        {
-            this.centerX = centerX;
-            this.centerY = centerY;
-            this.centerZ = centerZ;
-
-            this.width = width;
-            this.height = height;
-            this.depth = depth;
-            this.polygons = polygons;
-        }
-
         public void Draw()
         {
             foreach(Polygon polygon in polygons)
             {
                 polygon.Draw();
             }
+        }
+
+        public void Rotate(double angle, double x, double y, double z)
+        {
+            GL.Rotate(angle, x, y, z);
         }
 
         public void Add(Polygon polygon)

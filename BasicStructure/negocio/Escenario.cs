@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace BasicStructure.negocio
 {
-    class Escenario: IObject
+    public class Escenario: IObject
     {
-        public double centerX;
-        public double centerY;
-        public double centerZ;
-        public Dictionary<string, Object> objects;
+        public double centerX { get; set; }
+        public double centerY { get; set; }
+        public double centerZ { get; set; }
+        public Dictionary<string, Object> objects { get; set; }
 
+        [JsonConstructor]
         public Escenario(double centerX, double centerY, double centerZ)
         {
             this.centerX = centerX;
@@ -31,6 +33,14 @@ namespace BasicStructure.negocio
             foreach(KeyValuePair<string, Object> objecto in objects)
             {
                 objecto.Value.Draw();
+            }
+        }
+
+        public void Rotate(double angle, double x, double y, double z)
+        {
+            foreach (KeyValuePair<string, Object> objecto in objects)
+            {
+                objecto.Value.Rotate(angle, x, y, z);
             }
         }
 

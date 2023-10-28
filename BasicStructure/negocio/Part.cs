@@ -43,7 +43,28 @@ namespace BasicStructure.negocio
 
         public void Rotate(double angle, double x, double y, double z)
         {
-            GL.Rotate(angle, x, y, z);
+            this.Translate(-centerX, -centerY, -centerZ);
+            foreach (Polygon polygon in polygons)
+            {
+                polygon.Rotate(angle, x, y, z);
+            }
+            this.Translate(centerX, centerY, centerZ);
+        }
+
+        public void Translate(double x, double y, double z)
+        {
+            foreach (Polygon polygon in polygons)
+            {
+                polygon.Translate(x, y, z);
+            }
+        }
+
+        public void Scale(double size)
+        {
+            foreach(Polygon polygon in polygons)
+            {
+                polygon.Scale(size);
+            }
         }
 
         public void Add(Polygon polygon)

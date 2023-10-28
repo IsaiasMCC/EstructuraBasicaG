@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.IO;
 
 namespace BasicStructure.negocio
 {
@@ -41,6 +44,22 @@ namespace BasicStructure.negocio
             foreach (KeyValuePair<string, Object> objecto in objects)
             {
                 objecto.Value.Rotate(angle, x, y, z);
+            }
+        }
+
+        public void Translate(double x, double y, double z)
+        {
+            foreach(KeyValuePair<string, Object> objecto in objects)
+            {
+                objecto.Value.Translate(x, y, z);
+            }
+        }
+
+        public void Scale(double size)
+        {
+            foreach (KeyValuePair<string, Object> objecto in objects)
+            {
+                objecto.Value.Scale(size);
             }
         }
 

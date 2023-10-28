@@ -41,9 +41,27 @@ namespace BasicStructure.negocio
 
         public void Rotate(double angle, double x, double y, double z)
         {
+            this.Translate(-centerX, -centerY, -centerZ);
             foreach (KeyValuePair<string, Part> part in parts)
             {
                 part.Value.Rotate(angle, x, y, z);
+            }
+            this.Translate(centerX, centerY, centerZ);
+        }
+
+        public void Translate(double x, double y, double z)
+        {
+            foreach(KeyValuePair<string, Part> part in parts)
+            {
+                part.Value.Translate(x, y, z);
+            }
+        }
+
+        public void Scale(double size)
+        {
+            foreach (KeyValuePair<string, Part> part in parts)
+            {
+                part.Value.Scale(size);
             }
         }
 

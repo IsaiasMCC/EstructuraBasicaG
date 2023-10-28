@@ -21,9 +21,17 @@ namespace BasicStructure.negocio
         public Object pared;
         public Object repisa;
         public Object car;
+        public Object ejes;
+        public Object ejesY;
 
-
-        private double rotationAngle = 0.1;  // Ángulo inicial de rotación
+        //private float rotationAngle = 0.0f; // Ángulo de rotación inicial
+        private float rotationSpeed = 0.1f; // Velocidad de rotación
+        private double rotationAngle = 0;  // Ángulo inicial de rotación
+        double scaleFactor = 1.0; // Factor de escala inicial
+        double scaleSize = 0.01;
+        private static float xPosition = 0.0f; // Posición en el eje X
+        private static float yPosition = 0.0f; // Posición en el eje Y
+        private static float moveSpeed = 0.001f;  // Velocidad de movimiento
         public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title)
         {
             Run(60.0);
@@ -31,20 +39,124 @@ namespace BasicStructure.negocio
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            
             KeyboardState input = Keyboard.GetState();
             if (input.IsKeyDown(Key.Escape))
             {
                 Exit();
             }
+            // rotar el objeto en función de las teclas
+            if (input.IsKeyDown( Key.A ))
+            {
+                rotationAngle += rotationSpeed;
+                escenario.Rotate(rotationAngle, 0, 1, 0);
+            }
+            else if (input.IsKeyDown( Key.D))
+            {
+                rotationAngle -= rotationSpeed;
+                escenario.Rotate(rotationAngle, 0, 1, 0);
+            }
+            else if (input.IsKeyDown(Key.W))
+            {
+                rotationAngle += rotationSpeed;
+                escenario.Rotate(rotationAngle, 1, 0, 0);
+            }
+            else if (input.IsKeyDown(Key.S))
+            {
+                rotationAngle -= rotationSpeed;
+                escenario.Rotate(rotationAngle, 1, 0, 0);
+            }
+            // Mover el objeto en función de las teclas
+            if (input.IsKeyDown(Key.Left))
+            {
+                escenario.Translate(xPosition, 0, 0);
+                xPosition -= moveSpeed;
+            }
+            else if (input.IsKeyDown(Key.Right))
+            {
+                escenario.Translate(xPosition, 0, 0);
+                xPosition += moveSpeed;
+            }
+            else if (input.IsKeyDown(Key.Up))
+            {
+                escenario.Translate(0, yPosition, 0);
+                yPosition += moveSpeed;
+            }
+            else if (input.IsKeyDown(Key.Down))
+            {
+                escenario.Translate(0, yPosition, 0);
+                yPosition -= moveSpeed;
+            }
+            //Escalar el objeto en función de las teclas
+            else if (input.IsKeyDown(Key.Number1))
+            {
+                escenario.Scale(scaleFactor);
+                scaleFactor += scaleSize;
+            }
+            else if (input.IsKeyDown(Key.Number2))
+            {
+                escenario.Scale(scaleFactor);
+                scaleFactor -= scaleSize;
+            }
+
+
+            /*------------------ AUTO ---------------------------------*/
+            // rotar el objeto en función de las teclas
+            if (input.IsKeyDown(Key.F))
+            {
+                rotationAngle += rotationSpeed;
+                escenario.Get("Objeto car").Rotate(rotationAngle, 0, 1, 0);
+            }
+            else if (input.IsKeyDown(Key.H))
+            {
+                rotationAngle -= rotationSpeed;
+                escenario.Get("Objeto car").Rotate(rotationAngle, 0, 1, 0);
+            }
+            else if (input.IsKeyDown(Key.T))
+            {
+                rotationAngle += rotationSpeed;
+                escenario.Get("Objeto car").Rotate(rotationAngle, 1, 0, 0);
+            }
+            else if (input.IsKeyDown(Key.G))
+            {
+                rotationAngle -= rotationSpeed;
+                escenario.Get("Objeto car").Rotate(rotationAngle, 1, 0, 0);
+            }
+
+            // Mover el objeto en función de las teclas
+            if (input.IsKeyDown(Key.J))
+            {
+                escenario.Get("Objeto car").Translate(xPosition, 0, 0);
+                xPosition -= moveSpeed;
+            }
+            else if (input.IsKeyDown(Key.L))
+            {
+                escenario.Get("Objeto car").Translate(xPosition, 0, 0);
+                xPosition += moveSpeed;
+            }
+            else if (input.IsKeyDown(Key.I))
+            {
+                escenario.Get("Objeto car").Translate(0, yPosition, 0);
+                yPosition += moveSpeed;
+            }
+            else if (input.IsKeyDown(Key.K))
+            {
+                escenario.Get("Objeto car").Translate(0, yPosition, 0);
+                yPosition -= moveSpeed;
+            }
+            //Escalar el objeto en función de las teclas
+            else if (input.IsKeyDown(Key.P))
+            {
+                escenario.Get("Objeto car").Scale(scaleFactor);
+                scaleFactor += scaleSize;
+            }
+            else if (input.IsKeyDown(Key.O))
+            {
+                escenario.Get("Objeto car").Scale(scaleFactor);
+                scaleFactor -= scaleSize;
+            }
 
             base.OnUpdateFrame(e);
-            // Actualiza el ángulo de rotación
-            rotationAngle += (1.0 * e.Time);  // Cambia esto para ajustar la velocidad de rotación
-            if (rotationAngle >= 360.0)
-            {
-                rotationAngle -= 360.0;
-            }
-            
         }
 
         protected override void OnLoad(EventArgs e)
@@ -55,16 +167,18 @@ namespace BasicStructure.negocio
             escenario = new Escenario(0, 0, 0);
 
             /* OBJETOS */
-            pared = new Object(0.8, 0.9, 0.15, 0, 0, 0);
-            repisa = new Object(0.8, 0.07, 0.7, 0, 0, 0);
-            car = new Object(0.3, 0.2, 0.2, 0, 0.16, 0);
-
+            pared = new Object(0.8, 0.9, 0.15, escenario.centerX, escenario.centerY, escenario.centerZ);
+            repisa = new Object(0.8, 0.07, 0.7, escenario.centerX, escenario.centerY, escenario.centerZ + 0.4);
+            car = new Object(0.3, 0.2, 0.2, escenario.centerX, escenario.centerY + 0.15, escenario.centerZ + 0.4);
+            ejes = new Object(1.4, 0.01, 0.01, escenario.centerX, escenario.centerY, escenario.centerZ);
+            ejesY = new Object(0.01, 1.4, 0.01, escenario.centerX, escenario.centerY, escenario.centerZ);
             /* COLORES */
             Color color = new Color(0.698, 0.133, 0.133);
             Color colorRepisa = new Color(0.0f, 0.0f, 0.5f);
             Color colorCar = new Color(1,1,1);
             Color colorRueda = new Color(0, 0, 0);
-
+            Color colorVerde = new Color(1, 1, 0);
+            Color colorAmarillo = new Color(0, 1, 1);
             /*PARTES*/
 
             /********************** PARTE PARED *****************/
@@ -131,13 +245,6 @@ namespace BasicStructure.negocio
             polygonparedBottom.LoadVertices(pointsparedBottom);
 
             /* AGREGANDO POLIGONOS A LA PARTE*/
-
-            Partepared.Add(polygonparedFront);
-            Partepared.Add(polygonparedBack);
-            Partepared.Add(polygonparedLeft);
-            Partepared.Add(polygonparedRight);
-            Partepared.Add(polygonparedTop);
-            Partepared.Add(polygonparedBottom);
 
             /********************** PARTE REPISA *****************/
             Part ParteRepisa = new Part(pared.width, pared.height, pared.depth, pared.centerX, pared.centerY, pared.centerZ);
@@ -380,14 +487,44 @@ namespace BasicStructure.negocio
             ParteCar.Add(polygonRuedaFront4);
 
 
+            Part ParteEjes = new Part(ejes.width, ejes.height, ejes.depth, ejes.centerX, ejes.centerY, ejes.centerZ);
+            Part ParteEjes2 = new Part(ejesY.width, ejesY.height, ejesY.depth, ejesY.centerX, ejesY.centerY, ejesY.centerZ);
+            /* FRONT pared */
+            Point[] pointsEjeFront = {
+                new Point(ejes.centerX - (ejes.width / 2), ejes.centerY - (ejes.height / 2), ejes.centerZ - (ejes.depth / 2)),
+                new Point(ejes.centerX - (ejes.width / 2), ejes.centerY + (ejes.height / 2), ejes.centerZ - (ejes.depth / 2)),
+                new Point(ejes.centerX + (ejes.width / 2), ejes.centerY + (ejes.height / 2), ejes.centerZ - (ejes.depth / 2)),
+                new Point(ejes.centerX + (ejes.width / 2), ejes.centerY - (ejes.height / 2), ejes.centerZ - (ejes.depth / 2)),
+            };
+            Polygon polygonEjeFront = new Polygon(colorVerde);
+            polygonEjeFront.LoadVertices(pointsEjeFront);
+
+            /* BACK pared */
+            Point[] pointsRepisaX = {
+                new Point(ejesY.centerX - (ejesY.width / 2), ejesY.centerY - (ejesY.height / 2), ejesY.centerZ - (ejesY.depth / 2)),
+                new Point(ejesY.centerX - (ejesY.width / 2), ejesY.centerY + (ejesY.height / 2), ejesY.centerZ - (ejesY.depth / 2)),
+                new Point(ejesY.centerX + (ejesY.width / 2), ejesY.centerY + (ejesY.height / 2), ejesY.centerZ - (ejesY.depth / 2)),
+                new Point(ejesY.centerX + (ejesY.width / 2), ejesY.centerY - (ejesY.height / 2), ejesY.centerZ - (ejesY.depth / 2)),
+            };
+            Polygon polygonRepisaX = new Polygon(colorAmarillo);
+            polygonRepisaX.LoadVertices(pointsRepisaX);
+
+            ParteEjes.Add(polygonEjeFront);
+            ParteEjes2.Add(polygonRepisaX);
+
+
             /* AGREGANDO PARTES AL OBJETO*/
             pared.Add("pared", Partepared);
             repisa.Add("repisa", ParteRepisa);
             car.Add("car", ParteCar);
+            ejes.Add("eje", ParteEjes);
+            ejesY.Add("eje", ParteEjes2);
             /* AGREGANDO OBJECTOS AL ESCENARIO */
             escenario.Add("Objeto pared", pared);
             escenario.Add("Objeto repisa", repisa);
             escenario.Add("Objeto car", car);
+            escenario.Add("Objeto ejes", ejes);
+            escenario.Add("Objeto ejes2", ejesY);
 
 
 
@@ -397,34 +534,24 @@ namespace BasicStructure.negocio
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             //CODE GOES
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-            GL.PushMatrix();
-
-            /*********** COMENTAR SEGUNDO*/
-            /* LEE EL ARCHIVO JSON Y LO ABRE (CONSTRUYE) */
-            //string fileName = "escenario2.json"; 
-            //string fileJson = File.ReadAllText(fileName);  /*Lee el archivo y lo asigna en otro archivo */
-            //escenario = JsonSerializer.Deserialize<Escenario>(fileJson); /* Deserializa el json y lo convierte a objeto de tipo Escenario*/
-
-            escenario.Rotate(rotationAngle, 1, 01, 0.0);
-            rotationAngle = rotationAngle + 0.1;
             escenario.Draw();
-
-            /* ESTO SERIALIZA EN UN ARCHIVO JSON EL ESCENARIO*/
-            //string fileName = "escenario2.json";  /* Asigna el nombre con el que se guardara el archivo*/
-            //string fileJson = JsonSerializer.Serialize(escenario); /* Guarda en el archivo filejson  el escenario serializado*/
-            //File.WriteAllText(fileName, fileJson); /* Guarda el archivo con el nombre asignado en la computadora en la ruta --->  /bin/Debug          */
-            GL.PopMatrix();
             Context.SwapBuffers();
-            
         }
 
         protected override void OnResize(EventArgs e)
         {
+            float d = 2;
             GL.Viewport(0, 0, Width, Height);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.Ortho(-d, d, -d, d, -d, d);
+            //GL.Frustum(-80, 80, -80, 80, 4, 100);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
             base.OnResize(e);
         }
 
